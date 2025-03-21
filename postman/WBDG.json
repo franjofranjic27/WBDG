@@ -1,0 +1,109 @@
+{
+	"info": {
+		"_postman_id": "e8b659e3-61cf-4d64-9eca-33562998f19b",
+		"name": "WBDG",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27294711"
+	},
+	"item": [
+		{
+			"name": "Products",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://matthiasbaldauf.com/wbdg25/products",
+					"protocol": "https",
+					"host": [
+						"matthiasbaldauf",
+						"com"
+					],
+					"path": [
+						"wbdg25",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Review",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://matthiasbaldauf.com/wbdg25/reviews?prodid=11.1&orderby&sort&filter",
+					"protocol": "https",
+					"host": [
+						"matthiasbaldauf",
+						"com"
+					],
+					"path": [
+						"wbdg25",
+						"reviews"
+					],
+					"query": [
+						{
+							"key": "prodid",
+							"value": "11.1"
+						},
+						{
+							"key": "orderby",
+							"value": null
+						},
+						{
+							"key": "sort",
+							"value": null
+						},
+						{
+							"key": "filter",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Review",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"prodid\": 1,\n    \"comment\": \"test\",\n    \"rating\": 5,\n    \"user\": \"Franjo\",\n    \"email\": \"franjo.franjic@ost.ch\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://matthiasbaldauf.com/wbdg25/review",
+					"protocol": "https",
+					"host": [
+						"matthiasbaldauf",
+						"com"
+					],
+					"path": [
+						"wbdg25",
+						"review"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

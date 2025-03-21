@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
     .then((products) => {
       products.forEach((product) => {
         const productHTML = `
-            <div class="col-md-4 mb-4">
+            <div class="col-md-4 mb-4 hover-effect">
               <div class="card product-card h-100">
                 <img src="${product.img}" class="card-img-top" alt="${
           product["label-de"]
@@ -19,6 +19,9 @@ document.addEventListener("DOMContentLoaded", function () {
                   <a href="${
                     product.url
                   }" target="_blank" class="mt-auto btn btn-primary">Zum Produkt</a>
+                  <div class=overflow-hidden>
+                    <span class="score s4"></span>
+                  </div>
                 </div>
               </div>
             </div>

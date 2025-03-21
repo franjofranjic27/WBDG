@@ -1,8 +1,9 @@
-
 # 📦 Product Review Platform
 
 ## 📚 Project Overview
+
 This project is a **web-based product review platform** developed as part of the **Web Development Fundamentals** course at OST - School of Management. It showcases core front-end web development skills using:
+
 - **HTML**
 - **CSS**
 - **JavaScript**
@@ -15,6 +16,7 @@ The platform dynamically fetches product and review data from REST APIs, allows 
 ## 🌟 Features & User Stories
 
 ### ✅ User Story 1: List Products
+
 - Fetches product data from the REST endpoint
 - Displays:
   - Product image
@@ -23,15 +25,17 @@ The platform dynamically fetches product and review data from REST APIs, allows 
   - Product link to the OST shop
 
 ### ✅ User Story 2: Browse Reviews
+
 - Displays user reviews per product including:
   - Username
   - Review date
   - Comment
   - Numeric rating
 - Calculates and shows the **mean rating**
-- *(Optional)* Sort and filter reviews by rating, date, or content
+- _(Optional)_ Sort and filter reviews by rating, date, or content
 
 ### ✅ User Story 3: Submit a Review
+
 - Review form with validation:
   - Username
   - Email
@@ -44,6 +48,7 @@ The platform dynamically fetches product and review data from REST APIs, allows 
 ---
 
 ## 📁 Project Structure
+
 ```
 /project-folder
 │
@@ -59,6 +64,7 @@ The platform dynamically fetches product and review data from REST APIs, allows 
 ---
 
 ## 🔗 REST Endpoints Used
+
 - **Get Products:** `https://matthiasbaldauf.com/wbdg25/products`
 - **Get Reviews:** `https://matthiasbaldauf.com/wbdg25/reviews?prodid={productId}`
 - **Post Review:** `https://matthiasbaldauf.com/wbdg25/review`
@@ -67,6 +73,7 @@ The platform dynamically fetches product and review data from REST APIs, allows 
 ---
 
 ## 🛠 Technologies
+
 - HTML5
 - CSS3 & Bootstrap 5
 - Vanilla JavaScript (DOM Manipulation & Fetch API)
@@ -76,6 +83,7 @@ The platform dynamically fetches product and review data from REST APIs, allows 
 ---
 
 ## 📄 Submission Details
+
 - 📅 Deadline: **June 18, 2025**
 - 📦 Submit: **ZIP file** containing:
   - `index.html`
@@ -85,6 +93,7 @@ The platform dynamically fetches product and review data from REST APIs, allows 
 ---
 
 ## 🙌 Author
+
 **[Your Name]** - Web Development Fundamentals Project
 
 ---

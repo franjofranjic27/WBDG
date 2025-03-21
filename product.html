@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Product Details</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="bg-dark text-white p-3 text-center">
+      <h1>Product Details</h1>
+    </header>
+
+    <main class="container my-5">
+      <div id="product-details">Loading product...</div>
+      <hr />
+      <h3>Reviews</h3>
+      <div id="reviews">Loading reviews...</div>
+    </main>
+
+    <script>
+      const params = new URLSearchParams(window.location.search);
+      const productId = params.get("id");
+
+      const productDetailsDiv = document.getElementById("product-details");
+      const reviewsDiv = document.getElementById("reviews");
+
+      if (!productId) {
+        productDetailsDiv.innerHTML = "<p>No product ID provided.</p>";
+      } else {
+        // Fetch product details
+        fetch("https://matthiasbaldauf.com/wbdg25/products")
+          .then((response) => response.json())
+          .then((products) => {
+            const product = products.find((p) => p.id == productId);
+            if (product) {
+              productDetailsDiv.innerHTML = `
+              <div class="card">
+                <img src="${product.img}" class="card-img-top" alt="${
+                product["label-de"]
+              }">
+                <div class="card-body">
+                  <h3 class="card-title">${product["label-de"]}</h3>
+                  <p class="card-text fw-bold">CHF ${product[
+                    "price-chf"
+                  ].toFixed(2)}</p>
+                  <p class="card-text">${
+                    product.description || "No description available."
+                  }</p>
+                  <a href="${
+                    product.url
+                  }" target="_blank" class="btn btn-primary">Buy Now</a>
+                </div>
+              </div>
+            `;
+
+              // Fetch reviews
+              fetch(`https://matthiasbaldauf.com/wbdg25/reviews?prodid=11.1`)
+                .then((response) => response.json())
+                .then((reviews) => {
+                  if (reviews.length > 0) {
+                    reviewsDiv.innerHTML = reviews
+                      .map(
+                        (review) => `
+                    <div class="card mb-3">
+                      <div class="card-body">
+                        <h5 class="card-title">${review.reviewer}</h5>
+                        <p class="card-text">${review.text}</p>
+                        <span class="badge bg-success">Rating: ${review.rating}/5</span>
+                      </div>
+                    </div>
+                  `
+                      )
+                      .join("");
+                  } else {
+                    reviewsDiv.innerHTML = "<p>No reviews available.</p>";
+                  }
+                })
+                .catch(() => {
+                  reviewsDiv.innerHTML = "<p>Error loading reviews.</p>";
+                });
+            } else {
+              productDetailsDiv.innerHTML = "<p>Product not found.</p>";
+            }
+          })
+          .catch(() => {
+            productDetailsDiv.innerHTML = "<p>Error loading product data.</p>";
+          });
+      }
+    </script>
+  </body>
+</html>
