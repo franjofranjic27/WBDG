@@ -1,0 +1,102 @@
+/* Example styles - customize as needed */
+body {
+  background-color: white;
+}
+
+.product-card {
+  height: 100%;
+}
+
+header {
+  background-color: white;
+  box-shadow: 0 4px 2px -2px lightgray;
+}
+.header-logo {
+  height: 50px;
+}
+
+footer {
+  background-color: #8c195f;
+  color: white;
+  text-align: center;
+  padding: 1rem 0;
+}
+footer a {
+  color: #ffffff;
+  text-decoration: none;
+}
+footer a:hover {
+  text-decoration: underline;
+}
+
+.filter-sort-container {
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.filter-sort-container select {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.product-link:hover .card {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+}
+
+.hover-effect:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+}
+
+.btn-primary {
+  background-color: #8c195f;
+  border-color: #8c195f;
+}
+
+.btn-primary:hover {
+  background-color: #a0236e;
+  border-color: #a0236e;
+}
+
+.score {
+  display: inline-block;
+  font-family: Wingdings;
+  font-size: 10px;
+  color: #ccc;
+  position: relative;
+}
+
+.score::before,
+.score::after {
+  content: "\2605\2605\2605\2605\2605";
+  display: block;
+}
+.score::after {
+  color: gold;
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+}
+
+.score.s0::after {
+  width: 0%;
+}
+.score.s1::after {
+  width: 20%;
+}
+.score.s2::after {
+  width: 40%;
+}
+.score.s3::after {
+  width: 60%;
+}
+.score.s4::after {
+  width: 80%;
+}
+.score.s5::after {
+  width: 100%;
+}

@@ -81,4 +81,43 @@ document.addEventListener("DOMContentLoaded", function () {
         productContainer.innerHTML = "<p>Error loading product data.</p>";
       });
   }
+
+  const reviewForm = document.getElementById("review-form");
+  if (reviewForm) {
+    reviewForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const username = document.getElementById("username").value;
+      const email = document.getElementById("email").value;
+      const rating = parseInt(document.getElementById("rating").value, 10);
+      const comment = document.getElementById("comment").value;
+
+      const reviewData = {
+        prodid: productId,
+        user: username,
+        email: email,
+        rating: rating,
+        comment: comment,
+      };
+
+      fetch("https://example.com/reviews", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(reviewData),
+      })
+        .then((response) => {
+          if (response.ok) {
+            alert("Review submitted successfully!");
+            reviewForm.reset();
+          } else {
+            alert("Failed to submit review. Please try again.");
+          }
+        })
+        .catch(() => {
+          alert("An error occurred while submitting the review.");
+        });
+    });
+  }
 });
