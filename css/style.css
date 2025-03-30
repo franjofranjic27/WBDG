@@ -1,5 +1,6 @@
 /* Example styles - customize as needed */
-body {
+html body {
+  min-height: 100vh;
   background-color: white;
 }
 
@@ -13,6 +14,11 @@ header {
 }
 .header-logo {
   height: 50px;
+}
+.header-avatar {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
 }
 
 footer {

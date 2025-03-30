@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Product Review Platform - Dashboard</title>
+    <title>Product Review Platform - Product</title>
 
     <!-- Bootstrap CSS -->
     <link
@@ -24,12 +24,17 @@
     <link rel="stylesheet" href="css/product.css" />
   </head>
 
-  <body>
-    <header class="d-flex p-3">
-      <img src="img/ost_logo.png" alt="Logo" class="header-logo me-3" />
+  <body class="d-flex flex-column">
+    <header class="d-flex p-3 justify-content-between align-items-center">
+      <img src="img/ost_logo.png" alt="Logo" class="header-logo" />
+      <img
+        src="https://avatar.iran.liara.run/public"
+        alt="Avatar"
+        class="header-avatar me-3"
+      />
     </header>
 
-    <main class="container py-4">
+    <main class="container py-4 flex-fill">
       <div class="row" id="product-container"></div>
       <div class="row mt-4">
         <div class="col-md-8 offset-md-2">
@@ -70,59 +75,36 @@
     </main>
 
     <footer class="d-flex justify-content-between align-items-center p-3">
-      <div class="flex-1" style="flex: 1"></div>
-      <p class="m-0 text-center" style="flex: 1">
+      <div></div>
+      <p class="m-0 text-cente flex-grow-1" style="flex: 1">
         Copyright &copy; 2025 Franjo Franjic
       </p>
-      <div
-        class="d-flex align-items-center justify-content-end"
-        style="flex: 1"
-      >
-        <div class="px-1">
-          <a href="https://www.linkedin.com/in/franjo-franjic/" target="_blank">
-            <img
-              style="width: 40px"
-              src="https://hsgalumni.ch/media/1451/linkedin.svg"
-              alt="LinkedIn Icon"
-            />
-          </a>
-        </div>
-        <div class="px-1">
-          <a href="https://instagram.com" target="_blank">
-            <img
-              style="width: 40px"
-              src="https://hsgalumni.ch/media/1449/instagram-sketched.svg"
-              alt="Instagram Icon"
-            />
-          </a>
-        </div>
-        <div class="px-1">
-          <a href="https://facebook.com" target="_blank">
-            <img
-              style="width: 40px"
-              src="https://hsgalumni.ch/media/1447/facebook.svg"
-              alt="Facebook Icon"
-            />
-          </a>
-        </div>
+      <div>
+        <a href="https://www.linkedin.com/in/franjo-franjic/" target="_blank">
+          <img
+            src="https://hsgalumni.ch/media/1451/linkedin.svg"
+            alt="LinkedIn"
+            width="40"
+          />
+        </a>
       </div>
     </footer>
-
-    <!-- Bootstrap JS -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-      crossorigin="anonymous"
-    ></script>
-
-    <!-- jQuery -->
-    <script
-      src="https://code.jquery.com/jquery-3.7.1.min.js"
-      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
-      crossorigin="anonymous"
-    ></script>
-
-    <!-- JS -->
-    <script src="js/product.js"></script>
   </body>
+
+  <!-- Bootstrap JS -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"
+  ></script>
+
+  <!-- jQuery -->
+  <script
+    src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+    crossorigin="anonymous"
+  ></script>
+
+  <!-- JS -->
+  <script src="js/product.js"></script>
 </html>

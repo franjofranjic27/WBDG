@@ -1,16 +1,20 @@
-document.addEventListener("DOMContentLoaded", function () {
+$(document).ready(function () {
   const params = new URLSearchParams(window.location.search);
   const productId = params.get("id");
-
   const productContainer = document.getElementById("product-container");
 
   if (!productId) {
     productContainer.innerHTML = "<p>No product ID provided.</p>";
   } else {
-    // Fetch product details
-    fetch("https://matthiasbaldauf.com/wbdg25/products")
-      .then((response) => response.json())
-      .then((products) => {
+    renderProductByProductID(productId);
+  }
+
+  function renderProductByProductID(productId) {
+    $.ajax({
+      url: "https://matthiasbaldauf.com/wbdg25/products",
+      method: "GET",
+      dataType: "json",
+      success: function (products) {
         const product = products.find((p) => p.id == productId);
         if (product) {
           productContainer.innerHTML = `
@@ -22,6 +26,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 <div class="card-body">
                   <h3 class="card-title">${product["label-de"]}</h3>
                   <p class="card-text fw-bold">CHF ${product[
+                    "price-chf"
+                  ].toFixed(2)}</p>
+                  <p class="card-text fw-bold">EUR ${product[
                     "price-chf"
                   ].toFixed(2)}</p>
                   <p class="card-text">${
@@ -39,12 +46,29 @@ document.addEventListener("DOMContentLoaded", function () {
             </div>
           `;
 
+          // Fetch the current exchange rate from the API
+          $.ajax({
+            url: "https://v6.exchangerate-api.com/v6/248e5e2234e8a5765dc1adb9/latest/CHF",
+            method: "GET",
+            dataType: "json",
+            success: function (data) {
+              // Set the current exchange rate in EUR
+              exchangeRateEUR = data.conversion_rates.EUR;
+              console.log(data);
+              console.log(exchangeRateEUR);
+            },
+            error: function (xhr, status, error) {
+              console.error("Error fetching exchange rate data:", error);
+            },
+          });
+
           // Fetch reviews
-          fetch(
-            `https://matthiasbaldauf.com/wbdg25/reviews?prodid=${productId}`
-          )
-            .then((response) => response.json())
-            .then((reviews) => {
+          $.ajax({
+            url: `https://matthiasbaldauf.com/wbdg25/reviews`,
+            method: "GET",
+            data: { prodid: productId },
+            dataType: "json",
+            success: function (reviews) {
               const reviewsDiv = document.getElementById("reviews");
               if (reviews.length > 0) {
                 reviewsDiv.innerHTML = reviews
@@ -68,56 +92,50 @@ document.addEventListener("DOMContentLoaded", function () {
               } else {
                 reviewsDiv.innerHTML = "<p>No reviews available.</p>";
               }
-            })
-            .catch(() => {
+            },
+            error: function () {
               document.getElementById("reviews").innerHTML =
                 "<p>Error loading reviews.</p>";
-            });
+            },
+          });
         } else {
           productContainer.innerHTML = "<p>Product not found.</p>";
         }
-      })
-      .catch(() => {
-        productContainer.innerHTML = "<p>Error loading product data.</p>";
-      });
-  }
-
-  const reviewForm = document.getElementById("review-form");
-  if (reviewForm) {
-    reviewForm.addEventListener("submit", function (event) {
-      event.preventDefault();
-
-      const username = document.getElementById("username").value;
-      const email = document.getElementById("email").value;
-      const rating = parseInt(document.getElementById("rating").value, 10);
-      const comment = document.getElementById("comment").value;
-
-      const reviewData = {
-        prodid: productId,
-        user: username,
-        email: email,
-        rating: rating,
-        comment: comment,
-      };
-
-      fetch("https://example.com/reviews", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(reviewData),
-      })
-        .then((response) => {
-          if (response.ok) {
-            alert("Review submitted successfully!");
-            reviewForm.reset();
-          } else {
-            alert("Failed to submit review. Please try again.");
-          }
-        })
-        .catch(() => {
-          alert("An error occurred while submitting the review.");
-        });
+      },
+      error: function () {
+        productContainer.innerHTML = "<p>Error loading products.</p>";
+      },
     });
   }
+
+  //Form + Validation
+  $("#reviewForm").on("submit", function (event) {
+    event.preventDefault();
+    var formData = new FormData();
+
+    formData.append("prodid", productId);
+    formData.append("comment", $("#ncommentame").val());
+    formData.append("rating", $("#rating").val());
+    formData.append("user", $("#user").val());
+    formData.append("email", $("#email").val());
+
+    localStorage.setItem("user", document.getElementById("user").value);
+    localStorage.setItem("email", document.getElementById("email").value);
+
+    var reviewData = JSON.stringify(formData);
+
+    $.ajax({
+      url: "https://matthiasbaldauf.com/wbdg25/reviews",
+      method: "POST",
+      contentType: "application/json",
+      data: reviewData,
+      success: function () {
+        //alert("Review submitted successfully!");
+        //reviewForm.reset();
+      },
+      error: function () {
+        alert("Failed to submit review. Please try again.");
+      },
+    });
+  });
 });
