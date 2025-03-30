@@ -100,3 +100,9 @@ footer a:hover {
 .score.s5::after {
   width: 100%;
 }
+
+.review-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}

@@ -24,17 +24,16 @@
   </head>
 
   <body class="d-flex flex-column">
-    <header class="d-flex p-3 justify-content-between align-items-center">
-      <img src="img/ost_logo.png" alt="Logo" class="header-logo" />
-      <img
-        src="https://avatar.iran.liara.run/public"
-        alt="Avatar"
-        class="header-avatar me-3"
-      />
+    <header class="d-flex p-3 align-items-center">
+      <a href="index.html">
+        <img src="img/ost_logo.png" alt="Logo" class="header-logo" />
+      </a>
     </header>
 
     <main class="container py-4 flex-fill">
-      <div class="filter-sort-container">
+      <div class="filter-container">
+        <div id="sumProductsContainer"></div>
+
         <select id="filter-category">
           <option value="">alle</option>
         </select>

@@ -44,17 +44,17 @@ $(document).ready(function () {
       // Create product HTML
       var productHTML = `
         <div class="col-md-4 mb-4 hover-effect">
-          <a href="product.html?id=${product.id}" style="all: unset;">
+          <a href="product.html?id=${product.id}" style="all: unset; cursor: pointer;">
             <div class="card product-card h-100">
               <img src="${product.img}" class="card-img-top" alt="${product["label-de"]}">
               <div class="card-body">
+                <p class="card-text fs-6 mb-0 fw-light" style="color: #8c195f">${product["category"]}</p>
                 <h5 class="card-title">${product["label-de"]}</h5>
-                <p class="card-text fw-bold">CHF ${product["price-chf"]}</p>
-                <p class="card-text fw-bold">EUR ${product["price-eur"]}</p>
-                <a href="${product.url}" target="_blank" class="btn btn-primary">Zum Produkt</a>
-                <div class=overflow-hidden>
-                  <span class="score s4"></span>
+                <div class="d-flex flex-column">
+                  <p class="card-text me-3 mb-1 fs-5">CHF ${product["price-chf"]}</p>
+                  <p class="card-text fw-lighter mb-2">EUR ${product["price-eur"]}</p>
                 </div>
+                <a href="${product.url}" target="_blank" class="btn btn-primary"><i class="bi bi-box-arrow-up-right"></i> Zum Produkt</a>
               </div>
             </div>
           </a>
@@ -63,6 +63,10 @@ $(document).ready(function () {
 
       $("#product-container").append(productHTML);
     });
+
+    $("#sumProductsContainer").text(
+      `${products.length} from ${products.length} products`
+    );
   }
 
   // Fetch categories from the API
@@ -97,7 +101,7 @@ $(document).ready(function () {
               <div class="card-body">
                 <h5 class="card-title">${product["label-de"]}</h5>
                 <p class="card-text fw-bold">CHF ${product["price-chf"]}</p>
-                <p class="card-text fw-bold">EUR ${product["price-eur"]}</p>
+                <p class="card-text">EUR ${product["price-eur"]}</p>
                 <a href="${product.url}" target="_blank" class="btn btn-primary">Zum Produkt</a>
                 <div class=overflow-hidden>
                   <span class="score s4"></span>

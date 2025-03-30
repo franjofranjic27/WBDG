@@ -25,52 +25,53 @@
   </head>
 
   <body class="d-flex flex-column">
-    <header class="d-flex p-3 justify-content-between align-items-center">
-      <img src="img/ost_logo.png" alt="Logo" class="header-logo" />
-      <img
-        src="https://avatar.iran.liara.run/public"
-        alt="Avatar"
-        class="header-avatar me-3"
-      />
+    <header class="d-flex p-3 align-items-center">
+      <a href="index.html">
+        <img src="img/ost_logo.png" alt="Logo" class="header-logo" />
+      </a>
     </header>
 
     <main class="container py-4 flex-fill">
       <div class="row" id="product-container"></div>
-      <div class="row mt-4">
-        <div class="col-md-8 offset-md-2">
-          <h3>Submit a Review</h3>
-          <form id="review-form">
-            <div class="mb-3">
-              <label for="username" class="form-label">Name</label>
-              <input type="text" class="form-control" id="username" required />
+
+      <div class="mt-4">
+        <h3>Review erstellen</h3>
+        <form id="review-form">
+          <div class="row">
+            <div class="mb-3 col-md-6">
+              <label for="user" class="form-label">Name</label>
+              <input type="text" class="form-control" id="user" required />
             </div>
-            <div class="mb-3">
+            <div class="mb-3 col-md-6">
               <label for="email" class="form-label">Email</label>
               <input type="email" class="form-control" id="email" required />
             </div>
-            <div class="mb-3">
-              <label for="rating" class="form-label">Rating (1-5)</label>
-              <input
-                type="number"
-                class="form-control"
-                id="rating"
-                min="1"
-                max="5"
-                required
-              />
-            </div>
-            <div class="mb-3">
-              <label for="comment" class="form-label">Comment</label>
-              <textarea
-                class="form-control"
-                id="comment"
-                rows="3"
-                required
-              ></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit Review</button>
-          </form>
-        </div>
+          </div>
+          <div class="mb-3">
+            <label for="rating" class="form-label">Rating (1-5)</label>
+            <input
+              type="number"
+              class="form-control"
+              id="rating"
+              min="1"
+              max="5"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="comment" class="form-label">Comment</label>
+            <textarea
+              class="form-control"
+              id="comment"
+              rows="3"
+              required
+              style="resize: none"
+            ></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">
+            Review erstellen
+          </button>
+        </form>
       </div>
     </main>
 

@@ -35,13 +35,13 @@ footer a:hover {
   text-decoration: underline;
 }
 
-.filter-sort-container {
+.filter-container {
   margin-bottom: 1.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.filter-sort-container select {
+.filter-container select {
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -70,7 +70,6 @@ footer a:hover {
 .score {
   display: inline-block;
   font-family: Wingdings;
-  font-size: 10px;
   color: #ccc;
   position: relative;
 }
