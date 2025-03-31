@@ -32,7 +32,40 @@
     </header>
 
     <main class="container py-4 flex-fill">
-      <div class="row" id="product-container"></div>
+      <div class="row">
+        <div class="col-md-6" id="product-container">
+
+        </div>
+        <div class="col-md-6" style="height: 80vh;" id="product-review-container">
+          <h3>Reviews</h3>
+          <div id="review-sort-filter-container" class="container p-3 border rounded bg-light mb-3">
+            <div class="row g-2 align-items-center">
+              <!-- Filter Input -->
+              <div class="col-md-4">
+                <input type="text" id="reviewFilter" class="form-control" placeholder="🔍 Filter by comment or email...">
+              </div>
+          
+              <!-- Sort Dropdown -->
+              <div class="col-md-4">
+                <select id="reviewOrderBy" class="form-select">
+                  <option value="">Sort by</option>
+                  <option value="date">Date</option>
+                  <option value="rating">Rating</option>
+                </select>
+              </div>
+          
+              <!-- Ascending/Descending Toggle -->
+              <div class="col-md-4 text-md-end">
+                <button id="sortDirection" class="btn btn-outline-primary">
+                  <i class="bi bi-sort-up"></i> Ascending
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="overflow-auto" style="overflow-y: scroll; height: 60vh;" id="reviews">
+            <!-- Reviews will be dynamically inserted here -->
+        </div>
+      </div>
 
       <div class="mt-4">
         <h3>Review erstellen</h3>

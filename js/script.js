@@ -1,5 +1,6 @@
 $(document).ready(function () {
   var products = [];
+  var filteredProducts = [];
   var categories = [];
   var exchangeRateEUR;
 
@@ -12,8 +13,9 @@ $(document).ready(function () {
     dataType: "json",
     success: function (data) {
       products = data;
+      filteredProducts = [...products]; // Initially, show all products
       getCategories();
-      renderProducts();
+      renderProducts(filteredProducts);
     },
     error: function (xhr, status, error) {
       console.error("Error fetching products:", error);
@@ -34,8 +36,8 @@ $(document).ready(function () {
   });
 
   // render Products from API
-  function renderProducts() {
-    products.forEach(function (product) {
+  function renderProducts(productsToRender) {
+    productsToRender.forEach(function (product) {
       // Convert price to EUR
       product["price-eur"] = product["price-chf"] * exchangeRateEUR;
       // Format price to 2 decimal places
@@ -47,14 +49,16 @@ $(document).ready(function () {
           <a href="product.html?id=${product.id}" style="all: unset; cursor: pointer;">
             <div class="card product-card h-100">
               <img src="${product.img}" class="card-img-top" alt="${product["label-de"]}">
-              <div class="card-body">
+              <div class="card-body d-flex flex-column">
                 <p class="card-text fs-6 mb-0 fw-light" style="color: #8c195f">${product["category"]}</p>
                 <h5 class="card-title">${product["label-de"]}</h5>
                 <div class="d-flex flex-column">
                   <p class="card-text me-3 mb-1 fs-5">CHF ${product["price-chf"]}</p>
                   <p class="card-text fw-lighter mb-2">EUR ${product["price-eur"]}</p>
                 </div>
-                <a href="${product.url}" target="_blank" class="btn btn-primary"><i class="bi bi-box-arrow-up-right"></i> Zum Produkt</a>
+                <a href="${product.url}" target="_blank" class="btn btn-primary mt-auto">
+                  <i class="bi bi-box-arrow-up-right"></i> Zum Produkt
+                </a>
               </div>
             </div>
           </a>
@@ -64,8 +68,13 @@ $(document).ready(function () {
       $("#product-container").append(productHTML);
     });
 
-    $("#sumProductsContainer").text(
-      `${products.length} from ${products.length} products`
+    $("#sumProductsContainer").html(
+      `<div class="text-center fw-bold">
+          <span>${filteredProducts.length}</span> 
+          <span class="fw-normal">von</span> 
+          <span>${products.length}</span> 
+          <span class="fw-normal">Produkten</span>
+       </div>`
     );
   }
 
@@ -88,31 +97,11 @@ $(document).ready(function () {
 
   function filterProductsByCategory(selectedCategory) {
     $("#product-container").empty();
-    var filteredProducts = selectedCategory
+    filteredProducts = selectedCategory
       ? products.filter((product) => product.category === selectedCategory)
       : products;
-    filteredProducts.forEach(function (product) {
-      // Reuse render logic
-      var productHTML = `
-        <div class="col-md-4 mb-4 hover-effect">
-          <a href="product.html?id=${product.id}" style="all: unset;">
-            <div class="card product-card h-100">
-              <img src="${product.img}" class="card-img-top" alt="${product["label-de"]}">
-              <div class="card-body">
-                <h5 class="card-title">${product["label-de"]}</h5>
-                <p class="card-text fw-bold">CHF ${product["price-chf"]}</p>
-                <p class="card-text">EUR ${product["price-eur"]}</p>
-                <a href="${product.url}" target="_blank" class="btn btn-primary">Zum Produkt</a>
-                <div class=overflow-hidden>
-                  <span class="score s4"></span>
-                </div>
-              </div>
-            </div>
-          </a>
-        </div>
-      `;
-      $("#product-container").append(productHTML);
-    });
+
+    renderProducts(filteredProducts);
   }
 
   // Populate filter dropdown and add event listener

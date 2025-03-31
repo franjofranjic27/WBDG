@@ -11,6 +11,10 @@ $(document).ready(function () {
   var product = {};
   var exchangeRateEUR;
   var reviews = [];
+  
+  var orderBy = "desc";
+  var sortBy = "";
+  var filter = "";
 
   if (productId) {
     // Fetch all the products from the API
@@ -46,7 +50,7 @@ $(document).ready(function () {
   function renderProductByProductID(productId) {
     product = products.find((p) => p.id == productId);
     if (product) {
-      getReviewsByProductID(productId);
+      getReviewsByProductID();
 
       // Convert price to EUR
       product["price-eur"] = product["price-chf"] * exchangeRateEUR;
@@ -55,25 +59,22 @@ $(document).ready(function () {
       product["price-eur"] = parseFloat(product["price-eur"]).toFixed(2);
 
       $("#product-container").html(`
-        <div class="col-md-6">
-          <div class="card">
-            <img src="${product.img}" class="card-img-top" alt="${product["label-de"]}">
-            <div class="card-body">
-              <p class="card-text fs-6 mb-0 fw-light" style="color: #8c195f">${product["category"]}</p>
-              <h3 class="card-title">${product["label-de"]}</h3>
-              <div class="d-flex flex-column">
-                <p class="card-text me-3 mb-1 fs-5">CHF ${product["price-chf"]}</p>
-                <p class="card-text fw-lighter mb-1">EUR ${product["price-eur"]}</p>
-              </div>
-              <div class="overflow-hidden mb-2" id="productRating"></div>
-              <a href="${product.url}" target="_blank" class="btn btn-primary"><i class="bi bi-box-arrow-up-right"></i> Zum Produkt</a>
+        <div class="card">
+          <img src="${product.img}" class="card-img-top" alt="${product["label-de"]}">
+          <div class="card-body">
+            <p class="card-text fs-6 mb-0 fw-light" style="color: #8c195f">${product["category"]}</p>
+            <h3 class="card-title">${product["label-de"]}</h3>
+            <div class="d-flex flex-column">
+              <p class="card-text me-3 mb-1 fs-5">CHF ${product["price-chf"]}</p>
+              <p class="card-text fw-lighter mb-1">EUR ${product["price-eur"]}</p>
             </div>
+            <div class="overflow-hidden mb-2" id="productRating"></div>
+            <a href="${product.url}" target="_blank" class="btn btn-primary"><i class="bi bi-box-arrow-up-right"></i> Zum Produkt</a>
           </div>
         </div>
-        <div class="col-md-6" style="overflow-y: scroll; height: 80vh;">
-          <h3>Reviews</h3>
-          <div id="reviews">Loading reviews...</div>
-        </div>
+      `);
+      $("#reviews").html(`
+          <div>Loading reviews...</div>
       `);
     } else {
       $("#product-container").html("<p>Product not found.</p>");
@@ -81,11 +82,16 @@ $(document).ready(function () {
   }
 
   // Fetch reviews by product ID
-  function getReviewsByProductID(productId) {
+  function getReviewsByProductID() {
     $.ajax({
       url: `https://matthiasbaldauf.com/wbdg25/reviews`,
       method: "GET",
-      data: { prodid: productId },
+      data: {
+        prodid: productId,
+        orderby: orderBy,
+        sort: sortBy,
+        filter: filter,
+      },
       dataType: "json",
       success: function (reviews) {
         if (reviews.length > 0) {
@@ -95,8 +101,10 @@ $(document).ready(function () {
             reviews.reduce((sum, review) => sum + review.rating, 0) /
             reviews.length;
 
+          var reviewsPerProduct = reviews.length;
+
           $("#productRating").html(
-            `<span class='score fs-5 s${meanRatingPerProduct}'></span>`
+            `<span class='score fs-5 s${meanRatingPerProduct}'></span><span class="fs-5"> ${reviewsPerProduct}</span>`
           );
 
           //Todo Map also for the other not foreach?
@@ -177,4 +185,31 @@ $(document).ready(function () {
     });
     */
   });
+
+  // Listener for review sort dropdown
+  $("#reviewOrderBy").on("change", function () {
+    orderBy = $(this).val();
+    console.log(orderBy);
+
+    getReviewsByProductID();
+  });
+
+  // Listener for review sort dropdown
+  // ToDo Fix this Muffucka
+  $("#reviewSortBy").on("change", function () {
+    sortBy = $(this).val();
+    console.log(sortBy);
+
+    getReviewsByProductID();
+  });
+
+  // Listener for review sort dropdown
+  // ToDo Listen not on change but on whatever
+  $("#reviewFilter").on("change", function () {
+    filter = $(this).val();
+    console.log(filter);
+
+    getReviewsByProductID();
+  });
+  
 });
