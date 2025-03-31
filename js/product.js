@@ -11,9 +11,9 @@ $(document).ready(function () {
   var product = {};
   var exchangeRateEUR;
   var reviews = [];
-  
-  var orderBy = "desc";
-  var sortBy = "";
+
+  var orderBy = "";
+  var sortBy = "asc";
   var filter = "";
 
   if (productId) {
@@ -203,13 +203,27 @@ $(document).ready(function () {
     getReviewsByProductID();
   });
 
+  // Listener for review sort button
+  $("#reviewSortBy").on("click", function () {
+    const currentSort = $(this).data("sort");
+    const newSort = currentSort === "asc" ? "desc" : "asc";
+    $(this).data("sort", newSort); // Update the data-sort attribute
+    $(this).html(
+      newSort === "asc"
+        ? '<i class="bi bi-sort-up"></i> Ascending'
+        : '<i class="bi bi-sort-down"></i> Descending'
+    );
+    sortBy = newSort;
+
+    getReviewsByProductID();
+  });
+
   // Listener for review sort dropdown
   // ToDo Listen not on change but on whatever
-  $("#reviewFilter").on("change", function () {
+  $("#reviewFilter").on("input", function () {
     filter = $(this).val();
     console.log(filter);
 
     getReviewsByProductID();
   });
-  
 });
