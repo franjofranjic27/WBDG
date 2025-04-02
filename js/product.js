@@ -11,7 +11,7 @@ $(document).ready(function () {
 
   function init() {
     if (!productId) {
-      $("#product-container").html("<p>No product ID provided.</p>");
+      $("#productContainer").html("<p>No product ID provided.</p>");
       return;
     }
 
@@ -83,14 +83,14 @@ $(document).ready(function () {
 
     //Todo: display on the whole page
     if (!product) {
-      $("#product-container").html("<p>Product not found.</p>");
+      $("#productContainer").html("<p>Product not found.</p>");
       return;
     }
 
     formatProductPrices(product);
 
     // Render product details and reviews
-    $("#product-container").html(renderProductDetails(product));
+    $("#productContainer").html(renderProductDetails(product));
 
     getReviewsByProductID();
   }
@@ -223,7 +223,7 @@ $(document).ready(function () {
         showToast("Review submitted successfully!", "success");
 
         // Reset the form and update fields
-        $("#review-form")[0].reset();
+        $("#reviewForm")[0].reset();
         $("#user").val(user);
         $("#email").val(email);
 
@@ -232,7 +232,7 @@ $(document).ready(function () {
         // Scroll to the reviews section
         $("html, body").animate(
           {
-            scrollTop: $("#product-container").offset().top,
+            scrollTop: $("#productContainer").offset().top,
           },
           500
         );
