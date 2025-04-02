@@ -1,12 +1,12 @@
-.header-logo {
-  height: 50px;
-}
-
 footer {
   background-color: #8c195f;
 }
 
-.product-card {
+.headerLogo {
+  height: 50px;
+}
+
+.productCard {
   height: 100%;
 }
 

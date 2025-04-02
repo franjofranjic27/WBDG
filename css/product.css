@@ -1,8 +1,4 @@
-.score {
-  font-size: 10px;
-}
-
-.review-avatar {
+.reviewAvatar {
   width: 30px;
   height: 30px;
   border-radius: 50%;
@@ -19,7 +15,7 @@
   background-color: #8c195f;
 }
 
-.comment-control {
+#comment {
   resize: none;
 }
 

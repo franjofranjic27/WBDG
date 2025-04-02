@@ -117,7 +117,7 @@ $(document).ready(function () {
               review.username
             }"
             alt="Avatar"
-            class="review-avatar me-3"
+            class="reviewAvatar me-3"
           />
           <h5 class="card-title text-center m-0">${review.username}</h5>
         </div>

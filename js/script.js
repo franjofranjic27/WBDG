@@ -47,7 +47,7 @@ $(document).ready(function () {
       var productHTML = `
         <div class="col-md-4 mb-4 hover-effect">
           <a href="product.html?id=${product.id}" style="all: unset; cursor: pointer;">
-            <div class="card product-card h-100">
+            <div class="card productCard h-100">
               <img src="${product.img}" class="card-img-top" alt="${product["label-en"]}">
               <div class="card-body d-flex flex-column">
                 <p class="card-text fs-6 mb-0 fw-light" style="color: #8c195f">${product["category"]}</p>
