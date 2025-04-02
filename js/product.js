@@ -33,7 +33,7 @@ $(document).ready(function () {
 
     // Fetch the exchange rate from the API and set the current exchange rate in EUR
     $.ajax({
-      url: "https://v6.exchangerate-api.com/v6/248e5e2234e8a5765dc1adb9/latest/CHF",
+      url: `https://v6.exchangerate-api.com/v6/${EXCHANGERATE_API_KEY}/latest/CHF`,
       method: "GET",
       dataType: "json",
       success: function (data) {
@@ -152,38 +152,71 @@ $(document).ready(function () {
   //Form + Validation
   $("#review-form").on("submit", function (event) {
     event.preventDefault();
-    var formData = new FormData();
 
-    var formData = {
-      prodid: productId,
-      comment: $("#comment").val(),
-      rating: $("#rating").val(),
-      user: $("#user").val(),
-      email: $("#email").val(),
-    };
+    var user = $("#user").val();
+    var email = $("#email").val();
+    var comment = $("#comment").val();
+    var rating = $("#rating").val();
 
-    localStorage.setItem("user", $("#user").val());
-    localStorage.setItem("email", $("#email").val());
+    localStorage.setItem("user", user);
+    localStorage.setItem("email", email);
 
-    var reviewData = JSON.stringify(formData);
-
-    console.log(reviewData);
-
-    /*
     $.ajax({
-      url: "https://matthiasbaldauf.com/wbdg25/reviews",
+      url: "https://matthiasbaldauf.com/wbdg25/review",
       method: "POST",
-      contentType: "application/json",
-      data: reviewData,
+      contentType: "application/x-www-form-urlencoded",
+      data: $.param({
+        prodid: productId,
+        comment: comment,
+        rating: rating,
+        email: email,
+        user: user,
+      }),
       success: function () {
-        //alert("Review submitted successfully!");
-        //reviewForm.reset();
+        // Show success toast
+        $("body").append(`
+          <div class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true" style="position: fixed; top: 1rem; right: 1rem;">
+            <div class="d-flex">
+              <div class="toast-body">
+                Review submitted successfully!
+              </div>
+              <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+          </div>
+        `);
+        $(".toast").toast({ delay: 3000 }).toast("show");
+
+        // Reset the form
+        $("#review-form")[0].reset();
+        // set the user and email in the form
+        $("#user").val(user);
+        $("#email").val(email);
+
+        // Refresh the reviews
+        getReviewsByProductID();
+        // Scroll to the reviews section
+        $("html, body").animate(
+          {
+            scrollTop: $("#product-container").offset().top,
+          },
+          500
+        );
       },
       error: function () {
-        alert("Failed to submit review. Please try again.");
+        // Show error toast
+        $("body").append(`
+          <div class="toast align-items-center text-bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true" style="position: fixed; top: 1rem; right: 1rem;">
+            <div class="d-flex">
+              <div class="toast-body">
+                Failed to submit review. Please try again.
+              </div>
+              <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+          </div>
+        `);
+        $(".toast").toast({ delay: 3000 }).toast("show");
       },
     });
-    */
   });
 
   // Listener for review sort dropdown

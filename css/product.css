@@ -106,3 +106,26 @@ footer a:hover {
   height: 30px;
   border-radius: 50%;
 }
+
+#reviewSortBy {
+  color: #8c195f;
+  border-color: #8c195f;
+}
+
+#reviewSortBy:hover {
+  color: white;
+  border-color: #8c195f;
+  background-color: #8c195f;
+}
+
+#review-container {
+  display: flex;
+  flex-direction: column;
+  height: 80vh;
+}
+
+#reviews {
+  flex-grow: 1;
+  overflow-y: auto;
+  min-height: 0; /* Prevents flexbox issues with overflowing content */
+}

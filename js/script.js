@@ -1,10 +1,10 @@
 $(document).ready(function () {
+  const EXCHANGERATE_API_KEY = "248e5e2234e8a5765dc1adb9";
+
   var products = [];
   var filteredProducts = [];
   var categories = [];
   var exchangeRateEUR;
-
-  const EXCHANGERATE_API_KEY = "248e5e2234e8a5765dc1adb9";
 
   // Fetch all the products from the API
   $.ajax({
@@ -24,7 +24,7 @@ $(document).ready(function () {
 
   // Fetch the exchange rate from the API and set the current exchange rate in EUR
   $.ajax({
-    url: "https://v6.exchangerate-api.com/v6/248e5e2234e8a5765dc1adb9/latest/CHF",
+    url: `https://v6.exchangerate-api.com/v6/${EXCHANGERATE_API_KEY}/latest/CHF`,
     method: "GET",
     dataType: "json",
     success: function (data) {
