@@ -6,16 +6,7 @@ footer {
   height: 50px;
 }
 
-.productCard {
-  height: 100%;
-}
-
-.product-link:hover .card {
-  transform: scale(1.05);
-  transition: transform 0.3s ease;
-}
-
-.hover-effect:hover {
+.productCard:hover {
   transform: scale(1.05);
   transition: transform 0.3s ease;
 }

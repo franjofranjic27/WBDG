@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Product Review Platform - Product</title>
-    <link rel="icon" type="image/x-icon" href="/img/ost.svg" />
+    <link rel="icon" type="image/x-icon" href="/img/ost_favicon.svg" />
 
     <!-- Bootstrap CSS -->
     <link
@@ -71,15 +71,19 @@
 
       <div class="mt-4">
         <h2>Create Review</h2>
-        <form id="review-form">
+        <form id="reviewForm" novalidate>
           <div class="row">
             <div class="mb-3 col-md-6">
               <label for="user" class="form-label">Name</label>
               <input type="text" class="form-control" id="user" required />
+              <div class="invalid-feedback">Please enter your name.</div>
             </div>
             <div class="mb-3 col-md-6">
               <label for="email" class="form-label">Email</label>
               <input type="email" class="form-control" id="email" required />
+              <div class="invalid-feedback">
+                Please provide a valid email address.
+              </div>
             </div>
           </div>
           <div class="mb-3">
@@ -92,6 +96,9 @@
               max="5"
               required
             />
+            <div class="invalid-feedback">
+              Please select a rating between 1 and 5.
+            </div>
           </div>
           <div class="mb-3">
             <label for="comment" class="form-label">Comment</label>
@@ -101,6 +108,7 @@
               rows="3"
               required
             ></textarea>
+            <div class="invalid-feedback">Please add your comment.</div>
           </div>
           <button type="submit" class="btn btn-primary">Create Review</button>
         </form>

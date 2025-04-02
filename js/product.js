@@ -1,31 +1,34 @@
 $(document).ready(function () {
-  // To-Do: either id in url of localStoragte
-  const productId = new URLSearchParams(window.location.search).get("id");
-  const EXCHANGERATE_API_KEY = "248e5e2234e8a5765dc1adb9";
-
-  // Set the user's name and email from local storage if available
-  $("#email").val(localStorage.getItem("email"));
-  $("#user").val(localStorage.getItem("user"));
-
-  var products = [];
-  var product = {};
   var exchangeRateEUR;
-
   var orderBy = "";
   var sortBy = "asc";
   var filter = "";
 
-  if (productId) {
+  const productId = new URLSearchParams(window.location.search).get("id");
+  const EXCHANGERATE_API_KEY = "248e5e2234e8a5765dc1adb9";
+
+  init();
+
+  function init() {
+    if (!productId) {
+      $("#product-container").html("<p>No product ID provided.</p>");
+      return;
+    }
+
+    //Todo: split into functions
+    // Set the user's name and email from local storage
+    $("#email").val(localStorage.getItem("email"));
+    $("#user").val(localStorage.getItem("user"));
+
     // Fetch all the products from the API
     $.ajax({
       url: "https://matthiasbaldauf.com/wbdg25/products",
       method: "GET",
       dataType: "json",
-      success: function (data) {
-        products = data;
-        renderProductByProductID(productId);
+      success: function (products) {
+        renderProductByProductID(products, productId);
       },
-      error: function (xhr, status, error) {
+      error: function (error) {
         console.error("Error fetching products:", error);
       },
     });
@@ -38,22 +41,19 @@ $(document).ready(function () {
       success: function (data) {
         exchangeRateEUR = data.conversion_rates.EUR;
       },
-      error: function (xhr, status, error) {
+      error: function (error) {
         console.error("Error fetching exchange rate data:", error);
       },
     });
-  } else {
-    $("#product-container").html("<p>No product ID provided.</p>");
   }
 
-  // Function to format the price to two decimal places
-  function formatPrice(price) {
-    return parseFloat(price).toFixed(2);
-  }
-
-  // Function to convert CHF to EUR using the exchange rate
-  function convertPriceToEUR(chfPrice, exchangeRate) {
-    return (chfPrice * exchangeRate).toFixed(2);
+  function formatProductPrices(product) {
+    // Format price to 2 decimal places
+    product["price-chf"] = parseFloat(product["price-chf"]).toFixed(2);
+    product["price-eur"] = parseFloat(
+      product["price-chf"] * exchangeRateEUR
+    ).toFixed(2);
+    return product;
   }
 
   // Function to render the product details
@@ -78,26 +78,21 @@ $(document).ready(function () {
   }
 
   // Main function to render product by product ID
-  function renderProductByProductID(productId) {
+  function renderProductByProductID(products, productId) {
     const product = products.find((p) => p.id == productId);
 
-    if (product) {
-      getReviewsByProductID();
-
-      // Convert price and format it
-      product["price-eur"] = convertPriceToEUR(
-        product["price-chf"],
-        exchangeRateEUR
-      );
-      product["price-chf"] = formatPrice(product["price-chf"]);
-      product["price-eur"] = formatPrice(product["price-eur"]);
-
-      // Render product details and reviews
-      $("#product-container").html(renderProductDetails(product));
-      $("#reviews").html("<div>Loading reviews...</div>");
-    } else {
+    //Todo: display on the whole page
+    if (!product) {
       $("#product-container").html("<p>Product not found.</p>");
+      return;
     }
+
+    formatProductPrices(product);
+
+    // Render product details and reviews
+    $("#product-container").html(renderProductDetails(product));
+
+    getReviewsByProductID();
   }
 
   function calculateMeanRating(reviews) {
@@ -117,7 +112,7 @@ $(document).ready(function () {
               review.username
             }"
             alt="Avatar"
-            class="reviewAvatar me-3"
+            class="reviewAvatar me-3 rounded-circle"
           />
           <h5 class="card-title text-center m-0">${review.username}</h5>
         </div>
@@ -125,7 +120,7 @@ $(document).ready(function () {
           <span class="score fs-6 s${review.rating}"></span>
         </div>
         <p class="card-text">${review.comment}</p>
-        <small class="text-muted d-block">erstellt am: ${new Date(
+        <small class="text-muted d-block">created on: ${new Date(
           review.date
         ).toLocaleDateString()}</small>
       </div>
@@ -134,7 +129,10 @@ $(document).ready(function () {
   }
 
   // Fetch reviews by product ID
+  // Todo: Refactor this code
   function getReviewsByProductID() {
+    $("#reviews").html("<div>Loading reviews...</div>");
+
     $.ajax({
       url: `https://matthiasbaldauf.com/wbdg25/reviews`,
       method: "GET",
@@ -183,8 +181,23 @@ $(document).ready(function () {
     $(".toast").toast({ delay: 3000 }).toast("show");
   }
 
-  $("#review-form").on("submit", function (event) {
+  //Todo: Refactor this code
+  $("#reviewForm").on("submit", function (event) {
     event.preventDefault();
+
+    //Todo: refactor this code
+    const form = $(this)[0];
+
+    // Check if the form is valid
+    if (!form.checkValidity()) {
+      event.preventDefault();
+      event.stopPropagation();
+      $(this).addClass("was-validated");
+      return;
+    }
+
+    // Add Bootstrap validation classes
+    $(this).addClass("was-validated");
 
     var user = $("#user").val();
     var email = $("#email").val();
@@ -194,6 +207,7 @@ $(document).ready(function () {
     localStorage.setItem("user", user);
     localStorage.setItem("email", email);
 
+    // Todo: it should not send a request if the form is invalid
     $.ajax({
       url: "https://matthiasbaldauf.com/wbdg25/review",
       method: "POST",

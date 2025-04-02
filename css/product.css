@@ -1,7 +1,6 @@
 .reviewAvatar {
   width: 30px;
   height: 30px;
-  border-radius: 50%;
 }
 
 #reviewSortBy {
@@ -19,6 +18,9 @@
   resize: none;
 }
 
+/*
+  ToDo: make not this fix height weeiiirdd
+*/
 #reviews {
   max-height: 600px;
 }
