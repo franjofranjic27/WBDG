@@ -48,16 +48,16 @@ $(document).ready(function () {
         <div class="col-md-4 mb-4 hover-effect">
           <a href="product.html?id=${product.id}" style="all: unset; cursor: pointer;">
             <div class="card product-card h-100">
-              <img src="${product.img}" class="card-img-top" alt="${product["label-de"]}">
+              <img src="${product.img}" class="card-img-top" alt="${product["label-en"]}">
               <div class="card-body d-flex flex-column">
                 <p class="card-text fs-6 mb-0 fw-light" style="color: #8c195f">${product["category"]}</p>
-                <h5 class="card-title">${product["label-de"]}</h5>
+                <h5 class="card-title">${product["label-en"]}</h5>
                 <div class="d-flex flex-column">
                   <p class="card-text me-3 mb-1 fs-5">CHF ${product["price-chf"]}</p>
                   <p class="card-text fw-lighter mb-2">EUR ${product["price-eur"]}</p>
                 </div>
                 <a href="${product.url}" target="_blank" class="btn btn-primary mt-auto">
-                  <i class="bi bi-box-arrow-up-right"></i> Zum Produkt
+                  <i class="bi bi-box-arrow-up-right"></i> To the product
                 </a>
               </div>
             </div>
@@ -71,44 +71,41 @@ $(document).ready(function () {
     $("#sumProductsContainer").html(
       `<div class="text-center fw-bold">
           <span>${filteredProducts.length}</span> 
-          <span class="fw-normal">von</span> 
+          <span class="fw-normal">from</span> 
           <span>${products.length}</span> 
-          <span class="fw-normal">Produkten</span>
+          <span class="fw-normal">products</span>
        </div>`
     );
   }
 
-  // Fetch categories from the API
   function getCategories() {
-    products.forEach(function (product) {
-      if (!categories.includes(product.category)) {
-        categories.push(product.category);
-      }
-    });
+    categories = [...new Set(products.map((product) => product.category))];
   }
 
   function populateCategoryFilter() {
-    categories.forEach(function (category) {
-      $("#filter-category").append(
-        `<option value="${category}">${category}</option>`
-      );
-    });
+    const options = categories
+      .map((category) => `<option value="${category}">${category}</option>`)
+      .join("");
+
+    $("#filter-category").append(options);
   }
 
   function filterProductsByCategory(selectedCategory) {
-    $("#product-container").empty();
     filteredProducts = selectedCategory
       ? products.filter((product) => product.category === selectedCategory)
       : products;
 
+    $("#product-container").empty();
     renderProducts(filteredProducts);
   }
 
   // Populate filter dropdown and add event listener
   $(document).ajaxStop(function () {
     populateCategoryFilter();
+
+    // Unbind previous event listeners to prevent duplicate bindings
     $("#filter-category").on("change", function () {
-      var selectedCategory = $(this).val();
+      const selectedCategory = $(this).val();
       filterProductsByCategory(selectedCategory);
     });
   });

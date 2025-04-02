@@ -1,50 +1,13 @@
-/* Example styles - customize as needed */
-html body {
-  min-height: 100vh;
-  background-color: white;
-}
-
-.product-card {
-  height: 100%;
-}
-
-header {
-  background-color: white;
-  box-shadow: 0 4px 2px -2px lightgray;
-}
 .header-logo {
   height: 50px;
-}
-.header-avatar {
-  height: 50px;
-  width: 50px;
-  border-radius: 50%;
 }
 
 footer {
   background-color: #8c195f;
-  color: white;
-  text-align: center;
-  padding: 1rem 0;
-}
-footer a {
-  color: #ffffff;
-  text-decoration: none;
-}
-footer a:hover {
-  text-decoration: underline;
 }
 
-.filter-container {
-  margin-bottom: 1.5rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.filter-container select {
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+.product-card {
+  height: 100%;
 }
 
 .product-link:hover .card {
@@ -79,6 +42,7 @@ footer a:hover {
   content: "\2605\2605\2605\2605\2605";
   display: block;
 }
+
 .score::after {
   color: gold;
   position: absolute;

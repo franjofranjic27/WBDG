@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Product Review Platform - Product</title>
+    <link rel="icon" type="image/x-icon" href="/img/ost.svg" />
 
     <!-- Bootstrap CSS -->
     <link
@@ -24,18 +25,20 @@
     <link rel="stylesheet" href="css/product.css" />
   </head>
 
-  <body class="d-flex flex-column">
-    <header class="d-flex p-3 align-items-center">
-      <a href="index.html">
-        <img src="img/ost_logo.png" alt="Logo" class="header-logo" />
-      </a>
+  <body class="d-flex flex-column min-vh-100">
+    <header class="p-3 bg-white shadow-sm">
+      <div class="container">
+        <a href="index.html">
+          <img src="img/ost_logo.png" alt="Logo" class="header-logo" />
+        </a>
+      </div>
     </header>
 
-    <main class="container py-4 flex-fill">
+    <main class="container py-4 flex-grow-1">
       <div class="row">
         <div class="col-md-6 mb-3" id="product-container"></div>
-        <div class="col-md-6 mb-3" id="review-container">
-          <h3>Reviews</h3>
+        <div class="col-md-6 mb-3 d-flex flex-column" id="review-container">
+          <h2>Reviews</h2>
           <div class="container p-3 border rounded bg-light mb-3">
             <input
               type="text"
@@ -62,15 +65,12 @@
               </div>
             </div>
           </div>
-          <div
-            id="reviews"
-            style="flex-grow: 1; overflow-y: auto; height: auto"
-          ></div>
+          <div id="reviews" class="overflow-auto flex-grow-1"></div>
         </div>
       </div>
 
       <div class="mt-4">
-        <h3>Review erstellen</h3>
+        <h2>Create Review</h2>
         <form id="review-form">
           <div class="row">
             <div class="mb-3 col-md-6">
@@ -96,26 +96,22 @@
           <div class="mb-3">
             <label for="comment" class="form-label">Comment</label>
             <textarea
-              class="form-control"
+              class="form-control comment-control"
               id="comment"
               rows="3"
               required
-              style="resize: none"
             ></textarea>
           </div>
-          <button type="submit" class="btn btn-primary">
-            Review erstellen
-          </button>
+          <button type="submit" class="btn btn-primary">Create Review</button>
         </form>
       </div>
     </main>
 
-    <footer class="d-flex justify-content-between align-items-center p-3">
-      <div></div>
-      <p class="m-0 text-cente flex-grow-1" style="flex: 1">
-        Copyright &copy; 2025 Franjo Franjic
-      </p>
-      <div>
+    <footer class="text-white p-3">
+      <div class="container d-flex justify-content-between align-items-center">
+        <div class="flex-grow-1 text-center">
+          <p class="m-0">Copyright &copy; 2025 Franjo Franjic</p>
+        </div>
         <a href="https://www.linkedin.com/in/franjo-franjic/" target="_blank">
           <img
             src="https://hsgalumni.ch/media/1451/linkedin.svg"
@@ -125,22 +121,22 @@
         </a>
       </div>
     </footer>
+
+    <!-- Bootstrap JS -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- jQuery -->
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- JS -->
+    <script src="js/product.js"></script>
   </body>
-
-  <!-- Bootstrap JS -->
-  <script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-    crossorigin="anonymous"
-  ></script>
-
-  <!-- jQuery -->
-  <script
-    src="https://code.jquery.com/jquery-3.7.1.min.js"
-    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
-    crossorigin="anonymous"
-  ></script>
-
-  <!-- JS -->
-  <script src="js/product.js"></script>
 </html>

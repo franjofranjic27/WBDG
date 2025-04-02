@@ -10,7 +10,6 @@ $(document).ready(function () {
   var products = [];
   var product = {};
   var exchangeRateEUR;
-  var reviews = [];
 
   var orderBy = "";
   var sortBy = "asc";
@@ -47,38 +46,91 @@ $(document).ready(function () {
     $("#product-container").html("<p>No product ID provided.</p>");
   }
 
+  // Function to format the price to two decimal places
+  function formatPrice(price) {
+    return parseFloat(price).toFixed(2);
+  }
+
+  // Function to convert CHF to EUR using the exchange rate
+  function convertPriceToEUR(chfPrice, exchangeRate) {
+    return (chfPrice * exchangeRate).toFixed(2);
+  }
+
+  // Function to render the product details
+  function renderProductDetails(product) {
+    return `
+    <div class="card">
+      <img src="${product.img}" class="card-img-top" alt="${product["label-en"]}">
+      <div class="card-body">
+        <p class="card-text fs-6 mb-0 fw-light" style="color: #8c195f">${product["category"]}</p>
+        <h3 class="card-title">${product["label-en"]}</h3>
+        <div class="d-flex flex-column">
+          <p class="card-text me-3 mb-1 fs-5">CHF ${product["price-chf"]}</p>
+          <p class="card-text fw-lighter mb-1">EUR ${product["price-eur"]}</p>
+        </div>
+        <div class="overflow-hidden mb-2" id="productRating"></div>
+        <a href="${product.url}" target="_blank" class="btn btn-primary">
+          <i class="bi bi-box-arrow-up-right"></i> To the product
+        </a>
+      </div>
+    </div>
+  `;
+  }
+
+  // Main function to render product by product ID
   function renderProductByProductID(productId) {
-    product = products.find((p) => p.id == productId);
+    const product = products.find((p) => p.id == productId);
+
     if (product) {
       getReviewsByProductID();
 
-      // Convert price to EUR
-      product["price-eur"] = product["price-chf"] * exchangeRateEUR;
-      // Format price to 2 decimal places
-      product["price-chf"] = parseFloat(product["price-chf"]).toFixed(2);
-      product["price-eur"] = parseFloat(product["price-eur"]).toFixed(2);
+      // Convert price and format it
+      product["price-eur"] = convertPriceToEUR(
+        product["price-chf"],
+        exchangeRateEUR
+      );
+      product["price-chf"] = formatPrice(product["price-chf"]);
+      product["price-eur"] = formatPrice(product["price-eur"]);
 
-      $("#product-container").html(`
-        <div class="card">
-          <img src="${product.img}" class="card-img-top" alt="${product["label-de"]}">
-          <div class="card-body">
-            <p class="card-text fs-6 mb-0 fw-light" style="color: #8c195f">${product["category"]}</p>
-            <h3 class="card-title">${product["label-de"]}</h3>
-            <div class="d-flex flex-column">
-              <p class="card-text me-3 mb-1 fs-5">CHF ${product["price-chf"]}</p>
-              <p class="card-text fw-lighter mb-1">EUR ${product["price-eur"]}</p>
-            </div>
-            <div class="overflow-hidden mb-2" id="productRating"></div>
-            <a href="${product.url}" target="_blank" class="btn btn-primary"><i class="bi bi-box-arrow-up-right"></i> Zum Produkt</a>
-          </div>
-        </div>
-      `);
-      $("#reviews").html(`
-          <div>Loading reviews...</div>
-      `);
+      // Render product details and reviews
+      $("#product-container").html(renderProductDetails(product));
+      $("#reviews").html("<div>Loading reviews...</div>");
     } else {
       $("#product-container").html("<p>Product not found.</p>");
     }
+  }
+
+  function calculateMeanRating(reviews) {
+    return (
+      reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length
+    );
+  }
+
+  // Function to create review HTML markup
+  function createReviewMarkup(review) {
+    return `
+    <div class="card mb-3">
+      <div class="card-body">
+        <div class="d-flex align-items-center mb-2">
+          <img
+            src="https://avatar.iran.liara.run/username?username=${
+              review.username
+            }"
+            alt="Avatar"
+            class="review-avatar me-3"
+          />
+          <h5 class="card-title text-center m-0">${review.username}</h5>
+        </div>
+        <div class="overflow-hidden">
+          <span class="score fs-6 s${review.rating}"></span>
+        </div>
+        <p class="card-text">${review.comment}</p>
+        <small class="text-muted d-block">erstellt am: ${new Date(
+          review.date
+        ).toLocaleDateString()}</small>
+      </div>
+    </div>
+  `;
   }
 
   // Fetch reviews by product ID
@@ -95,50 +147,16 @@ $(document).ready(function () {
       dataType: "json",
       success: function (reviews) {
         if (reviews.length > 0) {
-          reviews = reviews;
+          const meanRatingPerProduct = calculateMeanRating(reviews);
+          const reviewsPerProduct = reviews.length;
 
-          meanRatingPerProduct =
-            reviews.reduce((sum, review) => sum + review.rating, 0) /
-            reviews.length;
+          $("#productRating").html(`
+            <span class='score fs-5 s${meanRatingPerProduct}'></span>
+            <span class="fs-5"> ${reviewsPerProduct}</span>
+          `);
 
-          var reviewsPerProduct = reviews.length;
-
-          $("#productRating").html(
-            `<span class='score fs-5 s${meanRatingPerProduct}'></span><span class="fs-5"> ${reviewsPerProduct}</span>`
-          );
-
-          //Todo Map also for the other not foreach?
-          $("#reviews").html(
-            reviews
-              .map(
-                (review) => `
-                  <div class="card mb-3">
-                    <div class="card-body">
-                      <div class="d-flex align-items-center mb-2">
-                        <img
-                          src="https://avatar.iran.liara.run/username?username=${
-                            review.username
-                          }"
-                          alt="Avatar"
-                          class="review-avatar me-3"
-                        /> 
-                        <h5 class="card-title text-center m-0">${
-                          review.username
-                        }</h5>
-                      </div>
-                      <div class=overflow-hidden>
-                        <span class="score fs-6 s${review.rating}"></span>
-                      </div>
-                      <p class="card-text">${review.comment}</p>
-                      <small class="text-muted d-block">erstellt am: ${new Date(
-                        review.date
-                      ).toLocaleDateString()}</small>
-                    </div>
-                  </div>
-                `
-              )
-              .join("")
-          );
+          const reviewsMarkup = reviews.map(createReviewMarkup).join("");
+          $("#reviews").html(reviewsMarkup);
         } else {
           $("#reviews").html("<p>No reviews available.</p>");
         }
@@ -149,7 +167,22 @@ $(document).ready(function () {
     });
   }
 
-  //Form + Validation
+  function showToast(message, type = "success") {
+    const toastClass =
+      type === "success" ? "text-bg-success" : "text-bg-danger";
+    $("body").append(`
+      <div class="toast align-items-center ${toastClass} border-0" role="alert" aria-live="assertive" aria-atomic="true" style="position: fixed; top: 1rem; right: 1rem;">
+        <div class="d-flex">
+          <div class="toast-body">
+            ${message}
+          </div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+      </div>
+    `);
+    $(".toast").toast({ delay: 3000 }).toast("show");
+  }
+
   $("#review-form").on("submit", function (event) {
     event.preventDefault();
 
@@ -173,26 +206,14 @@ $(document).ready(function () {
         user: user,
       }),
       success: function () {
-        // Show success toast
-        $("body").append(`
-          <div class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true" style="position: fixed; top: 1rem; right: 1rem;">
-            <div class="d-flex">
-              <div class="toast-body">
-                Review submitted successfully!
-              </div>
-              <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
-          </div>
-        `);
-        $(".toast").toast({ delay: 3000 }).toast("show");
+        showToast("Review submitted successfully!", "success");
 
-        // Reset the form
+        // Reset the form and update fields
         $("#review-form")[0].reset();
-        // set the user and email in the form
         $("#user").val(user);
         $("#email").val(email);
 
-        // Refresh the reviews
+        // Refresh the reviews and scroll to the review section
         getReviewsByProductID();
         // Scroll to the reviews section
         $("html, body").animate(
@@ -203,37 +224,9 @@ $(document).ready(function () {
         );
       },
       error: function () {
-        // Show error toast
-        $("body").append(`
-          <div class="toast align-items-center text-bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true" style="position: fixed; top: 1rem; right: 1rem;">
-            <div class="d-flex">
-              <div class="toast-body">
-                Failed to submit review. Please try again.
-              </div>
-              <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
-          </div>
-        `);
-        $(".toast").toast({ delay: 3000 }).toast("show");
+        showToast("Failed to submit review. Please try again.", "error");
       },
     });
-  });
-
-  // Listener for review sort dropdown
-  $("#reviewOrderBy").on("change", function () {
-    orderBy = $(this).val();
-    console.log(orderBy);
-
-    getReviewsByProductID();
-  });
-
-  // Listener for review sort dropdown
-  // ToDo Fix this Muffucka
-  $("#reviewSortBy").on("change", function () {
-    sortBy = $(this).val();
-    console.log(sortBy);
-
-    getReviewsByProductID();
   });
 
   // Listener for review sort button
@@ -252,10 +245,15 @@ $(document).ready(function () {
   });
 
   // Listener for review sort dropdown
-  // ToDo Listen not on change but on whatever
+  $("#reviewOrderBy").on("change", function () {
+    orderBy = $(this).val();
+
+    getReviewsByProductID();
+  });
+
+  // Listener for review sort dropdown
   $("#reviewFilter").on("input", function () {
     filter = $(this).val();
-    console.log(filter);
 
     getReviewsByProductID();
   });

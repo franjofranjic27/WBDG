@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Product Review Platform - Dashboard</title>
+    <link rel="icon" type="image/x-icon" href="/img/ost.svg" />
 
     <!-- Bootstrap CSS -->
     <link
@@ -23,31 +24,31 @@
     <link rel="stylesheet" href="css/style.css" />
   </head>
 
-  <body class="d-flex flex-column">
-    <header class="d-flex p-3 align-items-center">
-      <a href="index.html">
-        <img src="img/ost_logo.png" alt="Logo" class="header-logo" />
-      </a>
+  <body class="d-flex flex-column min-vh-100">
+    <header class="p-3 bg-white shadow-sm">
+      <div class="container">
+        <a href="index.html">
+          <img src="img/ost_logo.png" alt="Logo" class="header-logo" />
+        </a>
+      </div>
     </header>
 
-    <main class="container py-4 flex-fill">
-      <div class="filter-container">
+    <main class="container py-4 flex-grow-1">
+      <div class="mb-4 d-flex justify-content-between align-items-center">
         <div id="sumProductsContainer"></div>
-
-        <select id="filter-category">
-          <option value="">alle</option>
+        <select id="filter-category" class="p-2 border rounded">
+          <option value="">all</option>
         </select>
       </div>
 
       <div class="row" id="product-container"></div>
     </main>
 
-    <footer class="d-flex justify-content-between align-items-center p-3">
-      <div></div>
-      <p class="m-0 text-cente flex-grow-1" style="flex: 1">
-        Copyright &copy; 2025 Franjo Franjic
-      </p>
-      <div>
+    <footer class="text-white p-3">
+      <div class="container d-flex justify-content-between align-items-center">
+        <div class="flex-grow-1 text-center">
+          <p class="m-0">Copyright &copy; 2025 Franjo Franjic</p>
+        </div>
         <a href="https://www.linkedin.com/in/franjo-franjic/" target="_blank">
           <img
             src="https://hsgalumni.ch/media/1451/linkedin.svg"
